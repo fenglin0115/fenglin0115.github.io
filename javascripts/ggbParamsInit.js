@@ -1,0 +1,23 @@
+var params = {
+    "id": "ggbAppletCover",
+    "ggbBase64": "", 
+    "width": 960, 
+    "height": 600,
+    "enableRightClick": false,
+    "enableLabelDrags": false,
+    "enableShiftDragZoom": false,
+    "showZoomButtons": false,
+    "errorDialogsActive": false,
+    "showMenuBar": false,
+    "showToolBar": false,
+    "showToolBarHelp": false,
+    "showAlgebraInput": false,
+    "showResetIcon": false,
+    "showFullscreenButton": false,
+    "showAnimationButton": false,
+    "useBrowserForJS": true,
+    "scaleContainerClass": "ggbSetting",
+    "autoHeight": true,
+    "allowUpscale": true,
+    "borderColor": "#FFFFFF"
+};

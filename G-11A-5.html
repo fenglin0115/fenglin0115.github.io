@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <!-- <meta name="viewport" content="viewport-fit=cover"> -->
+
+    <title>正餘弦的和差角公式</title>
+
+    <!-- 載入jQuery -->
+    <script src="./includes/jquery-3.6.0.min.js"></script>
+
+    <!-- 載入BootStrap5 -->
+    <link href="./includes/bootstrap.min.css" rel="stylesheet">
+    <script src="./includes/bootstrap.bundle.min.js"></script>
+
+    <!-- 載入GeoGebra -->
+    <script src="./GeoGebra/deployggb.js"></script>
+
+    <!-- 載入SweetAlert2 -->
+    <script src="./includes/sweetalert2.all.min.js"></script>
+
+    <!-- 載入Loading畫面 -->
+    <link rel="stylesheet" href="./stylesheets/loading.css">
+
+    <!-- 載入Katex -->
+    <link rel="stylesheet" href="./includes/katex.min.css">
+    <script defer src="./includes/katex.min.js"></script>
+    <script defer src="./includes/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="./stylesheets/layout.css">
+
+    <!-- 載入jQuery Scroll -->
+    <link rel="stylesheet" href="./includes/style.css" />
+    <link rel="stylesheet" href="./includes/prettify/prettify.css" />
+    <script src="./includes/prettify/prettify.js"></script>
+    <script src="./javascripts/jquery.scrollbar.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.scrollbar-macosx').scrollbar();
+
+            $("#note").click(function () {
+                $("#note").hide();
+                $("#noted").fadeIn();
+                $("#fontSize").fadeIn();
+                $(".worksheets").show("slide");
+                $("#worksheetsMenu").show();
+            });
+
+            $("#noted").click(function () {
+                $("#noted").hide();
+                $("#note").fadeIn();
+                $("#fontSize").hide();
+                $(".worksheets").hide("slide");
+                $("#worksheetsMenu").hide();
+            });
+
+            $("#fontSize").click(function () {
+                if ($('#fs-1').is(":visible")) {
+                    $('#fs-1').hide();
+                    $('#fs-2').show();
+                    $('body').css({ 'font-size': '15px' });
+                } else if ($('#fs-2').is(":visible")) {
+                    $('#fs-2').hide();
+                    $('#fs-3').show();
+                    $('body').css({ 'font-size': '16px' });
+                } else if ($('#fs-3').is(":visible")) {
+                    $('#fs-3').hide();
+                    $('#fs-4').show();
+                    $('body').css({ 'font-size': '17px' });
+                } else {
+                    $('#fs-4').hide();
+                    $('#fs-1').show();
+                    $('body').css({ 'font-size': '14px' });
+                }
+            });
+        });
+    </script>
+
+    <style>
+
+        body {
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            background-image: url("./images/content/item_page_bg2.png");
+        }
+
+        label:has(input[type="checkbox"]), label:has(input[type="radio"]){
+            padding: 0px 5px;
+        }
+
+        label:has(input[type="checkbox"]:checked + span), label:has(input[type="radio"]:checked + span){
+            background-color: gold;
+            border-radius: 5px;
+            padding: 0px 5px;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="./stylesheets/jQueryScroll.css">
+
+    <link rel="shortcut icon" href=./favicon.ico>
+    <link rel=bookmark href=./favicon.ico>
+</head>
+
+<body>
+    <!-- BEGIN 載入畫面 -->
+    <div id="load-wrapper" class="d-flex flex-column align-items-center justify-content-center" style="z-index: 99999;">
+        <div class="lds-ring" style="margin: 0 auto;">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <h2>載入中...</h2>
+        </div>
+    </div>
+    <!-- END 載入畫面 -->
+
+    <!-- BEGIN 內容外框 -->
+    <div class="wrapper">
+
+        <!-- BEGIN 頁首外框 -->
+        <div class="header_wrapper">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./JDM-IEEA-01.html" style="color: darkolivegreen;">高中數學實驗室</a>
+                    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="d-flex navbar-nav align-items-lg-center"
+                            style="font-size: 0.9rem; font-weight: bold;">
+                            <div class="nav-item dropdown me-2" id="activitySelected">
+                                <button class="nav-link btn btn-light btn-sm p-1 dropdown-toggle border border-dark"
+                                    type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    請選擇活動
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="#">活動0</a></li>
+                                    <li><a class="dropdown-item" href="#">活動1</a></li>
+                                    <li><a class="dropdown-item" href="#">活動2</a></li>
+                                </ul>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" href="#">
+                                    <img src="./images/content/goal.png" height="30px"> 活動目標
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" id="note" href="#" style="display: none;">
+                                    <img src="./images/content/note.png" height="30px"> 顯示學習單
+                                </a>
+                                <a class="nav-link" id="noted" href="#">
+                                    <img src="./images/content/note-worked.png" height="30px"> 隱藏學習單
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMenu"
+                                    id="worksheetsMenu">
+                                    <img src="./images/content/menu.png" height="30px"> 學習單內容
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" href="#" id="fontSize">
+                                    <img id="fs-1" src="./images/fs-1.png" height="25px">
+                                    <img id="fs-2" src="./images/fs-2.png" height="25px" style="display: none;">
+                                    <img id="fs-3" src="./images/fs-3.png" height="25px" style="display: none;">
+                                    <img id="fs-4" src="./images/fs-4.png" height="25px" style="display: none;">
+                                    字體大小
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- END 頁首外框 -->
+
+        <!-- BEGIN 學具標題 -->
+        <div class="title">
+            <span>G-11A-5 虛擬學具</span>
+        </div>
+        <!-- END 學具標題 -->
+
+        <!-- BEGIN 學具及學習單外框 -->
+        <div class="manipulative">
+
+            <!-- BEGIN 學具區塊 -->
+            <div class="ggbSetting">
+                <div id="ggb-element">DIV2</div>
+            </div>
+            <!-- END 學具區塊 -->
+
+            <!-- BEGIN 學習單區塊 -->
+            <div class="worksheets scrollbar-macosx">
+
+                <!-- BEGIN 載入活動GGB檔及互動功能 -->
+                <script src="./javascripts/ggbParamsInit.js"></script>
+                <script src="./javascripts/utilities.js"></script>
+                <script src="./javascripts/G-11A-5/ggb_G_11A_5_cover.js"></script>
+                <script src="./javascripts/G-11A-5/ggb_G_11A_5_A0.js"></script>
+                <script src="./javascripts/G-11A-5/ggb_G_11A_5_A1.js"></script>
+                <script src="./javascripts/G-11A-5/ggb_G_11A_5_A2.js"></script>
+                <script src="./javascripts/G-11A-5/affordances.js"></script>
+                <script src="./javascripts/G-11A-5/affordances_A0.js"></script>
+                <script src="./javascripts/G-11A-5/affordances_A1.js"></script>
+                <script src="./javascripts/G-11A-5/affordances_A2.js"></script>
+                <!-- END 載入活動GGB檔及互動功能 -->
+                
+                <!-- BEGIN 活動0實驗操作1 -->
+                <div id="A0_operation1" class="operation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/operation.png" width="30px" alt="operation">
+                        <div class="worksheetsTitle">實驗操作1</div>
+                        <img id="A0_operation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span style="font-weight: bold;">實驗目標：</span>
+                            <span>藉由設計好的圖形，觀察指定線段之間的關係，進而認知正餘弦的和角公式</span>
+                            <br>
+                            <span>觀察畫面中的圖形，直角三角形 $AEF$，其中 $\overline{AF}=1$，$\angle{EAF}=\alpha$。</span>
+                            <span style="font-weight: bold;">操作步驟：</span>
+                            <ol>
+                                <li>
+                                    點選下拉選單中的選項改變角度 $\alpha$，將左圖中所示資訊記錄於觀察記錄1的表格中
+                                </li>
+                                <li class="mt-3">
+                                    觀察並記錄角度 $\alpha$ 的三角比，將其值記錄於觀察記錄1的表格中
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A0_operation1_next" class="btn btn-sm btn-success">前往觀察記錄1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動0實驗操作1 -->
+
+                <!-- BEGIN 活動0觀察記錄1 -->
+                <div id="A0_observation1" class="observation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/observation.png" width="30px" alt="observation">
+                        <div class="worksheetsTitle">觀察記錄1</div>
+                        <img id="A0_observation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>根據表格中的 $\alpha$ 值選取下拉選單中的選項，並將圖形所示資訊與角度 $\alpha$ 的三角比記錄於下表</span>
+                            <table class="table table-primary table-bordered table-hover text-center">
+                                <thead class="table-info">
+                                    <tr>
+                                        <th scope="col">$\alpha$</th>
+                                        <th scope="col">$\overline{AE}$</th>
+                                        <th scope="col">$\overline{EF}$</th>
+                                        <th scope="col">$\cos{\alpha}$</th>
+                                        <th scope="col">$\sin{\alpha}$</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">$5\degree$</th>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input1">
+                                                    <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                    <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                    <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                    <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                    <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                    <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                    <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input2">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input3">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input4" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input4">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">$15\degree$</th>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input5" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input5">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input6" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input6">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input7" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input7">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input8" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input8">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">$30\degree$</th>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input9" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input9">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input10" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input10">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input11" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input11">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input12" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input12">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">$45\degree$</th>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input13" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input13">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input14" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input14">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input15" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input15">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="A0_observation1_input16" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="A0_observation1_input16">
+                                                  <li><a class="dropdown-item" href="#">$0.087$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.259$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.5$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.707$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.866$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.966$</a></li>
+                                                  <li><a class="dropdown-item" href="#">$0.996$</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <button id="A0_observation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A0_observation1_next" class="btn btn-sm btn-success d-none">前往問題探索1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動0觀察記錄1 -->
+
+                <!-- BEGIN 活動0問題探索1 -->
+                <div id="A0_investigation1" class="investigation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/investigation.png" width="30px" alt="investigation">
+                        <div class="worksheetsTitle">問題探索1</div>
+                        <img id="A0_investigation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>試依據左圖回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>若 $\angle{EAF}=\alpha$，則 $\overline{AE}$ 可以用下列何者表示？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A0_investigation1_input1" id="A0_investigation1_input1_option1" value="1">
+                                        <span>$\sin{\alpha}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A0_investigation1_input1" id="A0_investigation1_input1_option2" value="2">
+                                        <span>$\cos{\alpha}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>若 $\angle{EAF}=\alpha$，則 $\overline{EF}$ 可以用下列何者表示？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A0_investigation1_input2" id="A0_investigation1_input2_option1" value="1">
+                                        <span>$\sin{\alpha}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A0_investigation1_input2" id="A0_investigation1_input2_option2" value="2">
+                                        <span>$\cos{\alpha}$</span>
+                                    </label>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A0_investigation1_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A0_investigation1_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A0_investigation1_next" class="btn btn-sm btn-success d-none">前往活動1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動0問題探索1 -->
+                
+                <!-- BEGIN 活動1實驗操作1 -->
+                <div id="A1_operation1" class="operation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/operation.png" width="30px" alt="operation">
+                        <div class="worksheetsTitle">實驗操作1</div>
+                        <img id="A1_operation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span style="font-weight: bold;">實驗目標：</span>
+                            <span>藉由設計好的圖形，觀察指定線段之間的關係，進而認知正餘弦的和角公式</span>
+                            <br>
+                            <span>觀察畫面中的圖形，直角三角形 $AEF$ 內接於矩形 $ABCD$ 中，其中 $\overline{AF}=1$，$\angle{AEF}=90\degree$，$\angle{EAF}=\alpha$，$\angle{BAE}=\beta$。</span>
+                            <span style="font-weight: bold;">操作步驟：</span>
+                            <ol>
+                                <li>
+                                    在紀錄表中，針對所顯示的符號，在圖形內點選相對應的線段或角度。
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A1_operation1_next" class="btn btn-sm btn-success">前往觀察記錄1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動1實驗操作1 -->
+
+                <!-- BEGIN 活動1觀察記錄1 -->
+                <div id="A1_observation1" class="observation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/observation.png" width="30px" alt="observation">
+                        <div class="worksheetsTitle">觀察記錄1</div>
+                        <img id="A1_observation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>試依據左圖回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>哪一個線段長度為 $\cos{\alpha}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input1" id="A1_observation1_input1_option1" value="1">
+                                        <span>$\overline{AE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input1" id="A1_observation1_input1_option2" value="2">
+                                        <span>$\overline{EF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{\alpha}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input2" id="A1_observation1_input2_option1" value="1">
+                                        <span>$\overline{AE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input2" id="A1_observation1_input2_option2" value="2">
+                                        <span>$\overline{EF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\cos{\alpha}\cdot\cos{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input3" id="A1_observation1_input3_option1" value="1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input3" id="A1_observation1_input3_option2" value="2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\cos{\alpha}\cdot\sin{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input4" id="A1_observation1_input4_option1" value="1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input4" id="A1_observation1_input4_option2" value="2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個角度的大小為 $\beta$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input5" id="A1_observation1_input5_option1" value="1">
+                                        <span>$\angle{CEF}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input5" id="A1_observation1_input5_option2" value="2">
+                                        <span>$\angle{AEB}$</span>
+                                    </label><br>
+                                    <span>　　</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input5" id="A1_observation1_input5_option3" value="3">
+                                        <span>$\angle{CFE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input5" id="A1_observation1_input5_option4" value="4">
+                                        <span>$\angle{AFD}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{\alpha}\cdot\cos{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input6" id="A1_observation1_input6_option1" value="1">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input6" id="A1_observation1_input6_option2" value="2">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{\alpha}\cdot\sin{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input7" id="A1_observation1_input7_option1" value="1">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input7" id="A1_observation1_input7_option2" value="2">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個角度的大小為 $\alpha+\beta$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input8" id="A1_observation1_input8_option1" value="1">
+                                        <span>$\angle{AFD}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input8" id="A1_observation1_input8_option2" value="2">
+                                        <span>$\angle{FAD}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input8" id="A1_observation1_input8_option3" value="3">
+                                        <span>$\angle{AEB}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{(\alpha+\beta)}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input9" id="A1_observation1_input9_option1" value="1">
+                                        <span>$\overline{DF}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input9" id="A1_observation1_input9_option2" value="2">
+                                        <span>$\overline{AD}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\cos{(\alpha+\beta)}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input10" id="A1_observation1_input10_option1" value="1">
+                                        <span>$\overline{DF}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A1_observation1_input10" id="A1_observation1_input10_option2" value="2">
+                                        <span>$\overline{AD}$</span>
+                                    </label>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A1_observation1_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A1_observation1_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm3" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm4" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm5" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm6" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm7" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm8" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm9" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_confirm10" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_observation1_next" class="btn btn-sm btn-success d-none">前往問題探索1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動1觀察記錄1 -->
+
+                <!-- BEGIN 活動1問題探索1 -->
+                <div id="A1_investigation1" class="investigation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/investigation.png" width="30px" alt="investigation">
+                        <div class="worksheetsTitle">問題探索1</div>
+                        <img id="A1_investigation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>觀察已完成的圖形，並依據各線段的長度回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>哪兩條線段相加的長度和會與 $\overline{AD}$ 的長度相等呢？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation1_input1_option1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation1_input1_option2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation1_input1_option3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation1_input1_option4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>承上述，由 $\overline{AD}=\overline{BE}+\overline{CE}$，我們能發現下列關係：</span><br>
+                                    <span>
+                                        答：$\sin{(\alpha+\beta)}=$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A1_investigation1_input2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A1_investigation1_input2">
+                                                <li><a class="dropdown-item" href="#">$\cos{\alpha}\sin{\beta}$</a></li>
+                                                <li><a class="dropdown-item" href="#">$\cos{\alpha}\cos{\beta}$</a></li>
+                                                
+                                            </ul>
+                                        </div>
+                                        $+$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A1_investigation1_input3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A1_investigation1_input3">
+                                                <li><a class="dropdown-item" href="#">$\sin{\alpha}\sin{\beta}$</a></li>
+                                                <li><a class="dropdown-item" href="#">$\sin{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                    </span>
+                                </li>                                
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A1_investigation1_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A1_investigation1_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_investigation1_next" class="btn btn-sm btn-success d-none">前往問題探索2</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動1問題探索1 -->
+
+                <!-- BEGIN 活動1問題探索2 -->
+                <div id="A1_investigation2" class="investigation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/investigation.png" width="30px" alt="investigation">
+                        <div class="worksheetsTitle">問題探索2</div>
+                        <img id="A1_investigation2_done" src="./images/content/finish.png" height="30px">
+                    </div>
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>觀察已完成的圖形，並依據各線段的長度回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>哪兩條線段相減的長度差會與 $\overline{DF}$ 的長度相等呢？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation2_input1_option1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation2_input1_option2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation2_input1_option3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A1_investigation2_input1_option4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>承上述，由 $\overline{DF}=\overline{AB}-\overline{CF}$，我們能發現下列關係：</span><br>
+                                    <span>
+                                        答：$\cos{(\alpha+\beta)}=$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A1_investigation2_input2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A1_investigation1_input2">
+                                                <li><a class="dropdown-item" href="#">$\cos{\alpha}\sin{\beta}$</a></li>
+                                                <li><a class="dropdown-item" href="#">$\cos{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                        $-$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A1_investigation2_input3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A1_investigation1_input3">
+                                                <li><a class="dropdown-item" href="#">$\sin{\alpha}\sin{\beta}$</a></li>
+                                                <li><a class="dropdown-item" href="#">$\sin{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                    </span>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A1_investigation2_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A1_investigation2_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A1_investigation2_next" class="btn btn-sm btn-success d-none">前往活動2</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動1問題探索2 -->
+
+                <!-- BEGIN 活動2實驗操作1 -->
+                <div id="A2_operation1" class="operation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/operation.png" width="30px" alt="operation">
+                        <div class="worksheetsTitle">實驗操作1</div>
+                        <img id="A2_operation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span style="font-weight: bold;">實驗目標：</span>
+                            <span>藉由設計好的圖形，觀察指定線段之間的關係，進而認知正餘弦的差角公式</span>
+                            <br>
+                            <span>觀察畫面中的圖形，直角三角形 $AEF$ 內接於矩形 $ABCD$ 中，其中 $\overline{AF}=1$，$\angle{AEF}=90\degree$，$\angle{DAE}=\alpha$，$\angle{EAF}=\beta$。</span>
+                            <span style="font-weight: bold;">操作步驟：</span>
+                            <ol>
+                                <li>
+                                    在紀錄表中，針對所顯示的符號，在圖形內點選相對應的線段或角度
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A2_operation1_next" class="btn btn-sm btn-success">前往觀察記錄1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動2實驗操作1 -->
+
+                <!-- BEGIN 活動2觀察記錄1 -->
+                <div id="A2_observation1" class="observation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/observation.png" width="30px" alt="observation">
+                        <div class="worksheetsTitle">觀察記錄1</div>
+                        <img id="A2_observation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>試依據左圖回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>哪一個線段長度為 $\cos{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input1" id="A2_observation1_input1_option1" value="1">
+                                        <span>$\overline{AE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input1" id="A2_observation1_input1_option2" value="2">
+                                        <span>$\overline{EF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input2" id="A2_observation1_input2_option1" value="1">
+                                        <span>$\overline{AE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input2" id="A2_observation1_input2_option2" value="2">
+                                        <span>$\overline{EF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪些角度的大小會是 $\alpha$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_observation1_input3_option1">
+                                        <span>$\angle{AEB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_observation1_input3_option2">
+                                        <span>$\angle{CFE}$</span>
+                                    </label><br>
+                                    <span>　　</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_observation1_input3_option3">
+                                        <span>$\angle{CEF}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_observation1_input3_option4">
+                                        <span>$\angle{AFD}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一條線段長度為 $\sin{\alpha}\cdot\cos{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input4" id="A2_observation1_input4_option1" value="1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input4" id="A2_observation1_input4_option2" value="2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input4" id="A2_observation1_input4_option3" value="3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input4" id="A2_observation1_input4_option4" value="4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\cos{\alpha}\cdot\cos{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input5" id="A2_observation1_input5_option1" value="1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input5" id="A2_observation1_input5_option2" value="2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input5" id="A2_observation1_input5_option3" value="3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input5" id="A2_observation1_input5_option4" value="4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{\alpha}\cdot\sin{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input6" id="A2_observation1_input6_option1" value="1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input6" id="A2_observation1_input6_option2" value="2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input6" id="A2_observation1_input6_option3" value="3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input6" id="A2_observation1_input6_option4" value="4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\cos{\alpha}\cdot\sin{\beta}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input7" id="A2_observation1_input7_option1" value="1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input7" id="A2_observation1_input7_option2" value="2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input7" id="A2_observation1_input7_option3" value="3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input7" id="A2_observation1_input7_option4" value="4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個角度的大小為 $\alpha-\beta$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input8" id="A2_observation1_input8_option1" value="1">
+                                        <span>$\angle{DAF}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input8" id="A2_observation1_input8_option2" value="2">
+                                        <span>$\angle{BEA}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input8" id="A2_observation1_input8_option3" value="3">
+                                        <span>$\angle{CFE}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\cos{(\alpha-\beta)}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input9" id="A2_observation1_input9_option1" value="1">
+                                        <span>$\overline{AD}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input9" id="A2_observation1_input9_option2" value="2">
+                                        <span>$\overline{DF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>哪一個線段長度為 $\sin{(\alpha-\beta)}$？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input10" id="A2_observation1_input10_option1" value="1">
+                                        <span>$\overline{AD}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="radio" name="A2_observation1_input10" id="A2_observation1_input10_option2" value="2">
+                                        <span>$\overline{DF}$</span>
+                                    </label>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A2_observation1_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A2_observation1_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm3" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm4" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm5" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm6" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm7" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm8" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm9" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_confirm10" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_observation1_next" class="btn btn-sm btn-success d-none">前往問題探索1</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動2觀察記錄1 -->
+
+                <!-- BEGIN 活動2問題探索1 -->
+                <div id="A2_investigation1" class="investigation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/investigation.png" width="30px" alt="investigation">
+                        <div class="worksheetsTitle">問題探索1</div>
+                        <img id="A2_investigation1_done" src="./images/content/finish.png" height="30px">
+                    </div>
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>觀察已完成的圖形，並依據各線段的長度回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>哪兩條線段相加的長度和會與 $\overline{AD}$ 的長度相等呢？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation1_input1_option1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation1_input1_option2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation1_input1_option3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation1_input1_option4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>承上述，由 $\overline{AD}=\overline{BE}+\overline{CE}$，我們能發現下列關係：</span><br>
+                                    <span>
+                                        答：$\cos{(\alpha-\beta)}=$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A2_investigation1_input2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A2_investigation1_input2">
+                                                <li><a class="dropdown-item" href="#">$\cos{\alpha}\sin{\beta}$</a></li>
+                                                <li><a class="dropdown-item" href="#">$\cos{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                        $+$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A2_investigation1_input3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A2_investigation1_input3">
+                                              <li><a class="dropdown-item" href="#">$\sin{\alpha}\sin{\beta}$</a></li>
+                                              <li><a class="dropdown-item" href="#">$\sin{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                    </span>
+                                </li>                                
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A2_investigation1_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A2_investigation1_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_investigation1_next" class="btn btn-sm btn-success d-none">前往問題探索2</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動2問題探索1 -->
+
+                <!-- BEGIN 活動2問題探索2 -->
+                <div id="A2_investigation2" class="investigation">
+                    <div class="worksheetsHeader">
+                        <img src="./images/content/investigation.png" width="30px" alt="investigation">
+                        <div class="worksheetsTitle">問題探索2</div>
+                        <img id="A2_investigation2_done" src="./images/content/finish.png" height="30px">
+                    </div>
+                    <div class="worksheetsContents">
+                        <div></div>
+                        <div>
+                            <span>觀察已完成的圖形，並依據各線段的長度回答下列問題：</span>
+                            <ol>
+                                <li>
+                                    <span>哪兩條線段相減的長度差會與 $\overline{DF}$ 的長度相等呢？</span><br>
+                                    <span>答：</span>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation2_input1_option1">
+                                        <span>$\overline{AB}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation2_input1_option2">
+                                        <span>$\overline{BE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation2_input1_option3">
+                                        <span>$\overline{CE}$</span>
+                                    </label>
+                                    <label class="d-inline-block mt-2 me-4">
+                                        <input type="checkbox" id="A2_investigation2_input1_option4">
+                                        <span>$\overline{CF}$</span>
+                                    </label>
+                                </li>
+                                <li class="mt-3 d-none">
+                                    <span>承上述，由 $\overline{DF}=\overline{AB}-\overline{CF}$，我們能發現下列關係：</span><br>
+                                    <span>
+                                        答：$\sin{(\alpha-\beta)}=$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A2_investigation2_input2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A2_investigation1_input2">
+                                                <li><a class="dropdown-item" href="#">$\sin{\alpha}\sin{\beta}$</a></li>
+                                                <li><a class="dropdown-item" href="#">$\sin{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                        $-$
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-light border-dark btn-sm dropdown-toggle" type="button" id="A2_investigation2_input3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                　　　
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="A2_investigation1_input3">
+                                              <li><a class="dropdown-item" href="#">$\cos{\alpha}\sin{\beta}$</a></li>
+                                              <li><a class="dropdown-item" href="#">$\cos{\alpha}\cos{\beta}$</a></li>
+                                            </ul>
+                                        </div>
+                                    </span>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <button id="A2_investigation2_confirm1" class="btn btn-sm btn-primary">確定送出</button>
+                            <button id="A2_investigation2_confirm2" class="btn btn-sm btn-primary d-none">確定送出</button>
+                            <button id="A2_investigation2_next" class="btn btn-sm btn-success d-none">恭喜完成所有活動了!</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 活動2問題探索2 -->
+
+            </div>
+            <!-- END 學習單區塊 -->
+
+        </div>
+        <!-- END 學具及學習單外框 -->
+
+    </div>
+    <!-- END 內容外框 -->
+
+
+    <!-- BEGIN 學習單內容選單 -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" style="width: 220px; background-color:azure;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">學習單內容</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body fs-6">
+
+
+            <ul id="outlineA0" class="outlines">
+                <li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+                    <strong>實驗操作</strong>
+                </li>
+                <ul>
+                    <li id="A0_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img
+                        src="./images/content/finish.png" height="15px"
+                        style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+                <li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+                    <strong>觀察記錄</strong>
+                </li>
+                <ul>
+                    <li id="A0_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img
+                            src="./images/content/finish.png" height="15px"
+                            style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+                <li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px"
+                    alt="investigation">
+                <strong>問題探索</strong>
+                </li>
+                <ul>
+                    <li id="A0_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img
+                            src="./images/content/finish.png" height="15px"
+                            style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>          
+            </ul>
+
+            <ul id="outlineA1" class="outlines">
+                <li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+                    <strong>實驗操作</strong>
+                </li>
+                <ul>
+                    <li id="A1_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img
+                        src="./images/content/finish.png" height="15px"
+                        style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+                <li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+                    <strong>觀察記錄</strong>
+                </li>
+                <ul>
+                    <li id="A1_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img
+                            src="./images/content/finish.png" height="15px"
+                            style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+                <li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px"
+                        alt="investigation">
+                    <strong>問題探索</strong>
+                </li>
+                <ul>
+                    <li id="A1_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img
+                            src="./images/content/finish.png" height="15px"
+                            style="opacity: 0.2; position: relative; top: -2px;"></li>
+                    <li id="A1_investigation2_link" class="outline"><a href="#">問題探索 2</a> <img
+                        src="./images/content/finish.png" height="15px"
+                        style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+            </ul>
+
+            <ul id="outlineA2" class="outlines">
+                <li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+                    <strong>實驗操作</strong>
+                </li>
+                <ul>
+                    <li id="A2_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img
+                        src="./images/content/finish.png" height="15px"
+                        style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+                <li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+                    <strong>觀察記錄</strong>
+                </li>
+                <ul>
+                    <li id="A2_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img
+                            src="./images/content/finish.png" height="15px"
+                            style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+                <li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px"
+                        alt="investigation">
+                    <strong>問題探索</strong>
+                </li>
+                <ul>
+                    <li id="A2_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img
+                            src="./images/content/finish.png" height="15px"
+                            style="opacity: 0.2; position: relative; top: -2px;"></li>
+                    <li id="A2_investigation2_link" class="outline"><a href="#">問題探索 2</a> <img
+                        src="./images/content/finish.png" height="15px"
+                        style="opacity: 0.2; position: relative; top: -2px;"></li>
+                </ul>
+            </ul>
+
+        </div>
+    </div>
+    <!-- END 學習單內容選單 -->
+
+
+
+
+</body>
+
+</html>

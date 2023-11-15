@@ -1,0 +1,24 @@
+針對互動性的部分，上架前要先在GGB做如下的處置：
+（以活動1為例）
+
+//擷取出函數，第一個為目前的f
+ListfText = Sequence("f(x) = " + Element(Listf,i), i, 1, Length(Listf))
+//ListRootsText = Sequence(Text(Element(ListRoots,i)), i, 1, Length(ListRoots))
+
+Textf1 = Element(ListfText, 1)
+
+//擷取f的根
+Listfroot = Sort(NSolutions(f(x) = 0)) // 目前f的根
+froot1 = CopyFreeObject(Element(Listfroot, 1))
+//前面幾個是正確的根，並加入幾個假的根
+ListRoots = Flatten(Sequence(NSolutions(Element(Listf, i)), i, 1, Length(Listf)))
+Listfd2Roots = Join(Listfroot, Unique(Flatten(Sequence(NSolutions(Element(Listfd2, i)), i, 2, Length(Listfd2))))\Listfroot)
+
+//TextRoot1 = "("+round(Element(ListRoots, 1))+", 0)"
+TextRoot1 = CopyFreeObject("("+round(Element(ListRoots, 1),2)+", 0)")
+//affordances.js 要加入下面動作
+SetValue(TextRoot1, CopyFreeObject("("+round(Element(ListRoots, 1),2)+", 0)"))
+
+ListfrootMid = Sequence((Element(Join({-9},Listfroot,{9}),i)+Element(Join({-9},Listfroot,{9}),i+1))/2, i, 1, Length(Listfroot)+1)
+ListfrootPN = Sequence(If(f(Element(ListfrootMid,i))>0,1,2), i, 1, Length(ListfrootMid))
+//frootPN1 = Element(ListfrootPN, 1)

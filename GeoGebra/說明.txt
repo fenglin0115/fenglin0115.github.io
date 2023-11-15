@@ -1,0 +1,2 @@
+2023/07/01 GeoGebra Kernel 更新至 5.0.788.0
+By Edward Hsu
