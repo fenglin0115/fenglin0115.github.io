@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <!-- <meta name="viewport" content="viewport-fit=cover"> -->
+
+    <title>虛擬學具</title>
+
+    <!-- 載入jQuery -->
+    <script src="./includes/jquery-3.6.0.min.js"></script>
+
+    <!-- 載入BootStrap5 -->
+    <link href="./includes/bootstrap.min.css" rel="stylesheet">
+    <script src="./includes/bootstrap.bundle.min.js"></script>
+
+    <!-- 載入GeoGebra -->
+    <script src="./GeoGebra/deployggb.js"></script>
+
+    <!-- 載入SweetAlert2 -->
+    <script src="./includes/sweetalert2.all.min.js"></script>
+
+    <!-- 載入Loading畫面 -->
+    <link rel="stylesheet" href="./stylesheets/loading.css">
+
+    <!-- 載入Katex -->
+    <link rel="stylesheet" href="./includes/katex.min.css">
+    <script defer src="./includes/katex.min.js"></script>
+    <script defer src="./includes/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="./stylesheets/layout.css">
+
+    <!-- 載入jQuery Scroll -->
+    <link rel="stylesheet" href="./includes/style.css" />
+    <link rel="stylesheet" href="./includes/prettify/prettify.css" />
+    <script src="./includes/prettify/prettify.js"></script>
+    <script src="./javascripts/jquery.scrollbar.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.scrollbar-macosx').scrollbar();
+
+            $("#note").click(function () {
+                $("#note").hide();
+                $("#noted").fadeIn();
+                $("#fontSize").fadeIn();
+                $(".worksheets").show("slide");
+                $("#worksheetsMenu").show();
+            });
+
+            $("#noted").click(function () {
+                $("#noted").hide();
+                $("#note").fadeIn();
+                $("#fontSize").hide();
+                $(".worksheets").hide("slide");
+                $("#worksheetsMenu").hide();
+            });
+
+            $("#fontSize").click(function () {
+                if ($('#fs-1').is(":visible")) {
+                    $('#fs-1').hide();
+                    $('#fs-2').show();
+                    $('body').css({ 'font-size': '15px' });
+                } else if ($('#fs-2').is(":visible")) {
+                    $('#fs-2').hide();
+                    $('#fs-3').show();
+                    $('body').css({ 'font-size': '16px' });
+                } else if ($('#fs-3').is(":visible")) {
+                    $('#fs-3').hide();
+                    $('#fs-4').show();
+                    $('body').css({ 'font-size': '17px' });
+                } else {
+                    $('#fs-4').hide();
+                    $('#fs-1').show();
+                    $('body').css({ 'font-size': '14px' });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            background-image: url("./images/content/item_page_bg2.png");
+        }
+    </style>
+
+    <link rel="stylesheet" href="./stylesheets/jQueryScroll.css">
+
+    <link rel="shortcut icon" href=./favicon.ico>
+    <link rel=bookmark href=./favicon.ico>
+</head>
+
+<body>
+
+    <!-- BEGIN 載入活動GGB檔及互動功能 -->
+    <script src="./javascripts/ggbParamsInit.js"></script>
+    <script src="./javascripts/utilities.js"></script>
+    <!-- END 載入活動GGB檔及互動功能 -->
+
+    <!-- BEGIN 載入畫面 -->
+    <div id="load-wrapper" class="d-flex flex-column align-items-center justify-content-center" style="z-index: 99999;">
+        <div class="lds-ring" style="margin: 0 auto;">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <h2>載入中...</h2>
+        </div>
+    </div>
+    <!-- END 載入畫面 -->
+
+    <!-- BEGIN 內容外框 -->
+    <div class="wrapper">
+
+        <!-- BEGIN 頁首外框 -->
+        <div class="header_wrapper">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./index.html" style="color: darkolivegreen;">高中數學實驗室</a>
+                    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="d-flex navbar-nav align-items-lg-center"
+                            style="font-size: 0.9rem; font-weight: bold;">
+                            <div class="nav-item dropdown me-2" id="activitySelected">
+                                <button class="nav-link btn btn-light btn-sm p-1 dropdown-toggle border border-dark"
+                                    type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    請選擇活動
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    
+                                        	<li><a class="dropdown-item" href="#">活動1</a></li>
+	<li><a class="dropdown-item" href="#">活動2</a></li>
+	<li><a class="dropdown-item" href="#">活動3</a></li>
+	<li><a class="dropdown-item" href="#">活動4</a></li>
+	<li><a class="dropdown-item" href="#">活動5</a></li>
+
+	
+                                            
+                                </ul>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" href="#">
+                                    <img src="./images/content/goal.png" height="30px"> 活動目標
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" id="note" href="#" style="display: none;">
+                                    <img src="./images/content/note.png" height="30px"> 顯示學習單
+                                </a>
+                                <a class="nav-link" id="noted" href="#">
+                                    <img src="./images/content/note-worked.png" height="30px"> 隱藏學習單
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMenu"
+                                    id="worksheetsMenu">
+                                    <img src="./images/content/menu.png" height="30px"> 學習單內容
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" href="#" id="fontSize">
+                                    <img id="fs-1" src="./images/fs-1.png" height="25px">
+                                    <img id="fs-2" src="./images/fs-2.png" height="25px" style="display: none;">
+                                    <img id="fs-3" src="./images/fs-3.png" height="25px" style="display: none;">
+                                    <img id="fs-4" src="./images/fs-4.png" height="25px" style="display: none;">
+                                    字體大小
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- END 頁首外框 -->
+
+        <!-- BEGIN 學具標題 -->
+        <div class="title">
+            <span>D-10-4 虛擬學具</span>
+        </div>
+        <!-- END 學具標題 -->
+
+        <!-- BEGIN 學具及學習單外框 -->
+        <div class="manipulative">
+
+            <!-- BEGIN 學具區塊 -->
+            <div class="ggbSetting">
+                <div id="ggb-element">DIV2</div>
+            </div>
+            <!-- END 學具區塊 -->
+
+            <!-- BEGIN 學習單區塊 -->
+            <div class="worksheets scrollbar-macosx">
+                <!-- BEGIN 載入活動GGB檔及互動功能 -->
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A1_com.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A1_1.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A2.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A3.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A4_1.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A5.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_A4_tool.js"></script>
+<script src="./javascripts/JDM-IEEA-02/ggb_JDM_IEEA_02_cover.js"></script>
+<script src="./javascripts/JDM-IEEA-02/affordances.js"></script>
+<!-- END 載入活動GGB檔及互動功能 -->
+
+<!--實驗操作模板-->
+
+<!-- BEGIN 活動1實驗操作6 圓規 -->
+<div id="A1_operation6" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">圓規工具</div>
+		<img id="A1_operation6_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsInstruction">
+		<div>
+			<a href="#"><img id="A1_operation6_shorten" src="./images/content/shorten.png" height="20px"></a>
+			<a href="#"><img id="A1_operation6_expand" src="./images/content/expand.png" height="20px"
+					style="display:none"></a>
+			<div>
+				說明：
+			</div>
+		</div>
+		<div>
+			<ul>
+				<li>
+					「$O$點」：拖曳以決定圓規圓心
+				</li>
+				<li>
+					「$P$點」：拖曳$P$點可以決定筆尖的位置
+				</li>
+				<li>
+					「開始畫圓」：勾選後可以拖曳$P$點畫圓
+				</li>
+				<li>
+					「顏色方塊」：點選可以改變筆跡顏色
+				</li>
+				<li>
+					「看看軌跡」：點擊後顯示以$O$為圓心、$\overline{OP}$為半徑的圓
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>操作目標：</strong><br>
+			試著用圓規工具畫個圓形吧！<br>
+			以$Q$點為圓心，半徑為$4$，畫一個圓形吧
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>
+					將<strong>「$O$點」</strong>拖曳至「$Q$點」決定圓心位置
+				</li>
+				<li>
+					拖曳<strong>「$P$點」</strong>將半徑選擇為$4$
+				</li>
+				<li>
+					勾選<strong>「開始畫圓」</strong>後，拖曳<strong>「$P$點」</strong>畫一個圓
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A1_operation6_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動1實驗操作6 圓規-->
+
+<!-- BEGIN 活動1實驗操作1 -->
+<div id="A1_operation1" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作1</div>
+		<img id="A1_operation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong><br>
+			在藏寶圖上以合適的圓心與半徑畫圓，畫出完整的圓形城牆
+			<ul>
+				<li>
+					<strong style="color: red">寶藏</strong>在圓形城牆的圓心
+				</li>
+			</ul>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>
+					點擊$A$、$B$、$C$點可以設定圓規的圓心$O$
+					<br>
+					<button id="A1_operation1_set1" class="btn btn-sm btn-primary">設定至$A$點</button>
+					<button id="A1_operation1_set2" class="btn btn-sm btn-primary">設定至$B$點</button>
+					<button id="A1_operation1_set3" class="btn btn-sm btn-primary">設定至$C$點</button>
+				</li>
+				<li>
+					點擊城牆上的點可以調整圓規至合適的半徑<br>
+					<button id="A1_operation1_set4" class="btn btn-sm btn-primary">設定半徑</button>
+				</li>
+				<li>
+					勾選「開始畫圓」後，拖曳「$P$點」開始畫圓
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A1_operation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動1實驗操作1 -->
+<!-- BEGIN 活動1觀察記錄1 -->
+<div id="A1_observation1" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄1</div>
+		<img id="A1_observation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					<div>以$A$點為圓心所畫的圓是否會同時經過四座塔的位置？</div>
+					<div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_observation1_input1"
+								id="A1_observation1_input1_option1" value="1">
+							<label class="form-check-label" for="A1_observation1_input1_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_observation1_input1"
+								id="A1_observation1_input1_option2" value="2">
+							<label class="form-check-label" for="A1_observation1_input1_option2">否
+							</label>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div>以$B$點為圓心所畫的圓是否會同時經過四座塔的位置？</div>
+					<div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_observation1_input2"
+								id="A1_observation1_input2_option1" value="1">
+							<label class="form-check-label" for="A1_observation1_input2_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_observation1_input2"
+								id="A1_observation1_input2_option2" value="2">
+							<label class="form-check-label" for="A1_observation1_input2_option2">否
+
+							</label>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div>以$C$點為圓心所畫的圓是否會同時經過四座塔的位置？</div>
+					<div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_observation1_input3"
+								id="A1_observation1_input3_option1" value="1">
+							<label class="form-check-label" for="A1_observation1_input3_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_observation1_input3"
+								id="A1_observation1_input3_option2" value="2">
+							<label class="form-check-label" for="A1_observation1_input3_option2">否
+
+							</label>
+						</div>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A1_observation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A1_observation1_next" class="btn btn-sm btn-success d-none ">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動1觀察記錄1 -->
+<!-- BEGIN 活動1問題探索1 -->
+<div id="A1_investigation1" class="investigation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/investigation.png" width="30px" alt="investigation">
+		<div class="worksheetsTitle">問題探索1</div>
+		<img id="A1_investigation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<div>
+				關於圓形的特性，下列敘述哪些是正確？
+				<ol>
+					<li>
+						圓上的點到圓心的距離是否相同？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_investigation1_input1"
+								id="A1_investigation1_input1_option1" value="1">
+							<label class="form-check-label" for="A1_investigation1_input1_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_investigation1_input1"
+								id="A1_investigation1_input1_option2" value="2">
+							<label class="form-check-label" for="A1_investigation1_input1_option2">否</label>
+						</div>
+					</li>
+					<li id="A1_inv1_li2" class="d-none">
+						圓上一點到圓心的距離稱為什麼？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_investigation1_input2"
+								id="A1_investigation1_input2_option1" value="1">
+							<label class="form-check-label" for="A1_investigation1_input2_option1">直徑</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A1_investigation1_input2"
+								id="A1_investigation1_input2_option2" value="2">
+							<label class="form-check-label" for="A1_investigation1_input2_option2">半徑</label>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div>
+			<button id="A1_investigation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A1_investigation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動1問題探索1 -->
+
+
+<!--實驗操作模板-->
+<!-- BEGIN 活動2實驗操作1 -->
+<div id="A2_operation1" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作1</div>
+		<img id="A2_operation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong>
+			「決定要挖掘的位置」並「標示原本的圓形城牆」 <br>
+			<ul>
+				<li>
+					<strong><span style="color:blue ">樓塔</span>在原本圓形的城牆上</strong>
+				</li>
+				<li>
+					<strong><span style="color: red">寶藏</span>在圓形城牆的圓心</strong>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>
+					拖曳<strong>「紅色叉叉」</strong>並點擊<strong>「確定挖掘位置」</strong>決定要挖掘寶藏的位置
+				</li>
+				<li>
+					拖曳<strong>「紅點」</strong>調整圓形城牆大小讓圓周通過$T$點吧
+				</li>
+				<li>
+					點擊<strong>「確定城牆遺跡」</strong>並看看有沒有挖到寶藏吧
+				</li>
+				<li>
+					至少進行三次符合條件的挖掘吧
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A2_operation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動2實驗操作1 -->
+
+<!-- BEGIN 活動2觀察記錄1 -->
+<div id="A2_observation1" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄1</div>
+		<img id="A2_observation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<div>
+				<ol>
+					<li>
+						你所畫出的符合條件的<span style="color: red;">圓形城牆</span>是否都有通過$T$點呢？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input1"
+								id="A2_observation1_input1_option1" value="1">
+							<label class="form-check-label" for="A2_observation1_input1_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input1"
+								id="A2_observation1_input1_option2" value="2">
+							<label class="form-check-label" for="A2_observation1_input1_option2">否</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input1"
+								id="A2_observation1_input1_option3" value="3">
+							<label class="form-check-label" for="A2_observation1_input1_option3">不一定</label>
+						</div>
+					</li>
+					<li id="A2_obs1_li2" class="d-none">
+						你有機會挖掘到寶藏的地點<span style="color: red;">(紅色圈圈)</span>，位置都相同嗎？ <br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input2"
+								id="A2_observation1_input2_option1" value="1">
+							<label class="form-check-label" for="A2_observation1_input2_option1">相同</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input2"
+								id="A2_observation1_input2_option2" value="2">
+							<label class="form-check-label" for="A2_observation1_input2_option2">不相同</label>
+						</div>
+					</li>
+					<li id="A2_obs1_li3" class="d-none">
+						你所畫出的圓形城牆的大小都相同嗎？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input3"
+								id="A2_observation1_input3_option1" value="1">
+							<label class="form-check-label" for="A2_observation1_input3_option1">相同</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A2_observation1_input3"
+								id="A2_observation1_input3_option2" value="2">
+							<label class="form-check-label" for="A2_observation1_input3_option2">不相同</label>
+						</div>
+					</li>
+				</ol>
+			</div>
+			<div>
+				<button id="A2_observation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+				<button id="A2_observation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END 活動2觀察記錄1 -->
+<!-- BEGIN 活動2問題探索1 -->
+<div id="A2_investigation1" class="investigation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/investigation.png" width="30px" alt="investigation">
+		<div class="worksheetsTitle">問題探索1</div>
+		<img id="A2_investigation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					你覺得通過$T$點的圓有幾個？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A2_investigation1_input1"
+							id="A2_investigation1_input1_option1" value="1">
+						<label class="form-check-label" for="A2_investigation1_input1_option1">$1$個</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A2_investigation1_input1"
+							id="A2_investigation1_input1_option2" value="2">
+						<label class="form-check-label" for="A2_investigation1_input1_option2">$2$個</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A2_investigation1_input1"
+							id="A2_investigation1_input1_option3" value="3">
+						<label class="form-check-label" for="A2_investigation1_input1_option3">$3$個</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A2_investigation1_input1"
+							id="A2_investigation1_input1_option4" value="4">
+						<label class="form-check-label" for="A2_investigation1_input1_option4">無限多個</label>
+					</div>
+				</li>
+				<li id="A2_inv1_li2" class="d-none">
+					只有發現一座樓塔，一定可以找到寶藏的確切地點嗎？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A2_investigation1_input3"
+							id="A2_investigation1_input3_option1" value="1">
+						<label class="form-check-label" for="A2_investigation1_input3_option1">一定可以</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A2_investigation1_input3"
+							id="A2_investigation1_input3_option2" value="2">
+						<label class="form-check-label" for="A2_investigation1_input3_option2">不一定</label>
+					</div>
+				</li>
+				<li id="A2_inv1_li3" class="d-none">
+					如果你想要更確切找到寶藏位置，你覺得需要增加哪些條件？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A2_investigation1_input4"
+							id="A2_investigation1_input4_option1" value="1">
+						<label class="form-check-label" for="A2_investigation1_input4_option1">
+							知道寶藏到樓塔的確切距離</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A2_investigation1_input4"
+							id="A2_investigation1_input4_option2" value="2">
+						<label class="form-check-label" for="A2_investigation1_input4_option2">
+							知道所畫圓是否能再通過其他樓塔
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A2_investigation1_input4"
+							id="A2_investigation1_input4_option3" value="3">
+						<label class="form-check-label" for="A2_investigation1_input4_option3">
+							再多挖幾個點，總會挖到
+						</label>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A2_investigation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A2_investigation1_next" class="btn btn-sm btn-success d-none ">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動2問題探索1 -->
+
+
+<!-- BEGIN 活動3實驗操作1 -->
+<div id="A3_operation1" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作1</div>
+		<img id="A3_operation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong>
+			「決定要挖掘的位置」並「標示原本的圓形城牆」 <br>
+			<ul>
+				<li>
+					<strong style="color:blue ">兩座樓塔</strong>都在原本圓形的城牆上
+				</li>
+				<li>
+					<strong style="color: red">寶藏</strong>在圓形城牆的圓心
+				</li>
+			</ul>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>
+					拖曳<strong>「紅色叉叉」</strong>並點擊<strong>「確定挖掘位置」</strong>決定要挖掘寶藏的位置
+				</li>
+				<li>
+					拖曳<strong>「紅點」</strong>調整圓形城牆大小，讓圓周同時通過兩座樓塔吧<br>
+					圓心到兩點的距離要一樣長才會有辦法同時通過兩點喔
+				</li>
+				<li>
+					點擊<strong>「確定城牆遺跡」並看看有沒有挖到寶藏吧</strong>
+				</li>
+				<li>
+					至少進行<strong>五次</strong>符合目標的挖掘吧
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A3_operation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動3實驗操作1 -->
+
+<!-- BEGIN 活動3觀察記錄1 -->
+<div id="A3_observation1" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄1</div>
+		<img id="A3_observation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div>下列哪些點，有機會挖到寶藏？</div>
+		<div>
+			<div>
+				<ol>
+					<li>
+						$A$點到兩座塔的距離相同嗎？
+						<button id="A3_observation1_setvalue1" class="btn btn-sm btn-primary">設定至$A$點</button>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input1"
+								id="A3_observation1_input1_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input1_option1">相同</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input1"
+								id="A3_observation1_input1_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input1_option2">不相同</label>
+						</div>
+						<br>$A$點有機會挖到寶藏嗎？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input2"
+								id="A3_observation1_input2_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input2_option1">有機會</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input2"
+								id="A3_observation1_input2_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input2_option2">沒有機會</label>
+						</div>
+					</li>
+					<li id="A3_obs1_li2" class="d-none">
+						$B$點到兩座塔的距離相同嗎？
+						<button id="A3_observation1_setvalue2" class="btn btn-sm btn-primary">設定至$B$點</button>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input3"
+								id="A3_observation1_input3_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input3_option1">相同</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input3"
+								id="A3_observation1_input3_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input3_option2">不相同</label>
+						</div>
+						<br>$B$點有機會挖到寶藏嗎？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input4"
+								id="A3_observation1_input4_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input4_option1">有機會</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input4"
+								id="A3_observation1_input4_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input4_option2">沒有機會</label>
+						</div>
+					</li>
+					<li id="A3_obs1_li3" class="d-none">
+						$C$點到兩座塔的距離相同嗎？
+						<button id="A3_observation1_setvalue3" class="btn btn-sm btn-primary">設定至$C$點</button>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input5"
+								id="A3_observation1_input5_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input5_option1">相同</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input5"
+								id="A3_observation1_input5_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input5_option2">不相同</label>
+						</div>
+						<br>$C$點有機會挖到寶藏嗎？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input6"
+								id="A3_observation1_input6_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input6_option1">有機會</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input6"
+								id="A3_observation1_input6_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input6_option2">沒有機會</label>
+						</div>
+					</li>
+					<li id="A3_obs1_li4" class="d-none">
+						$D$點到兩座塔的距離相同嗎？
+						<button id="A3_observation1_setvalue4" class="btn btn-sm btn-primary">設定至$D$點</button>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input7"
+								id="A3_observation1_input7_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input7_option1">相同</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input7"
+								id="A3_observation1_input7_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input7_option2">不相同</label>
+						</div>
+						<br>$D$點有機會挖到寶藏嗎？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input8"
+								id="A3_observation1_input8_option1" value="1">
+							<label class="form-check-label" for="A3_observation1_input8_option1">有機會</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A3_observation1_input8"
+								id="A3_observation1_input8_option2" value="2">
+							<label class="form-check-label" for="A3_observation1_input8_option2">沒有機會</label>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div>
+			<button id="A3_observation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A3_observation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動3觀察記錄1 -->
+<!-- BEGIN 活動3觀察記錄2 -->
+<div id="A3_observation2" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄2</div>
+		<img id="A3_observation2_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					你所畫出的符合條件的<span style="color: red;">圓形城牆</span>是否都有同時通過$T1$、$T2$點呢？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input1"
+							id="A3_observation2_input1_option1" value="1">
+						<label class="form-check-label" for="A3_observation2_input1_option1">是</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input1"
+							id="A3_observation2_input1_option2" value="2">
+						<label class="form-check-label" for="A3_observation2_input1_option2">否</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input1"
+							id="A3_observation2_input1_option3" value="3">
+						<label class="form-check-label" for="A3_observation2_input1_option3">不一定</label>
+					</div>
+				</li>
+				<li id='A3_obs2_li2' class=" d-none">
+					你有機會挖掘到寶藏的地點<span style="color: red;">(紅色圈圈)</span>，位置都相同嗎？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input2"
+							id="A3_observation2_input2_option1" value="1">
+						<label class="form-check-label" for="A3_observation2_input2_option1">相同</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input2"
+							id="A3_observation2_input2_option2" value="2">
+						<label class="form-check-label" for="A3_observation2_input2_option2">不相同</label>
+					</div>
+				</li>
+				<li id="A3_obs2_li3" class='d-none'>
+					你所畫出的圓形城牆的大小都相同嗎？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input3"
+							id="A3_observation2_input3_option1" value="1">
+						<label class="form-check-label" for="A3_observation2_input3_option1">相同</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_observation2_input3"
+							id="A3_observation2_input3_option2" value="2">
+						<label class="form-check-label" for="A3_observation2_input3_option2">不相同</label>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A3_observation2_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A3_observation2_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動3觀察記錄2 -->
+<!-- BEGIN 活動3問題探索1 -->
+<div id="A3_investigation1" class="investigation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/investigation.png" width="30px" alt="investigation">
+		<div class="worksheetsTitle">問題探索1</div>
+		<img id="A3_investigation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					你覺得同時通過$T1$、$T2$兩點的圓有幾個？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input1"
+							id="A3_investigation1_input1_option1" value="1">
+						<label class="form-check-label" for="A3_investigation1_input1_option1">$1$個</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input1"
+							id="A3_investigation1_input1_option2" value="2">
+						<label class="form-check-label" for="A3_observation1_input1_option2">$2$個</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input1"
+							id="A3_investigation1_input1_option3" value="3">
+						<label class="form-check-label" for="A3_investigation1_input1_option3">$3$個</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input1"
+							id="A3_investigation1_input1_option4" value="4">
+						<label class="form-check-label" for="A3_investigation1_input1_option4">無限多個</label>
+					</div>
+				</li>
+				<li id="A3_inv1_li2" class="d-none">
+					同時通過$T1$、$T2$的圓，他的圓心到$T1$與$T2$的距離相同嗎？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input6"
+							id="A3_investigation1_input6_option1" value="1">
+						<label class="form-check-label" for="A3_investigation1_input6_option1">是</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input6"
+							id="A3_investigation1_input6_option2" value="2">
+						<label class="form-check-label" for="A3_investigation1_input6_option2">否</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input6"
+							id="A3_investigation1_input6_option3" value="3">
+						<label class="form-check-label" for="A3_investigation1_input6_option3">不一定</label>
+					</div>
+				</li>
+				<li id="A3_inv1_li3" class="d-none">
+					同時通過$T1$、$T2$兩點的圓中，有最小的嗎？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input2"
+							id="A3_investigation1_input2_option1" value="1">
+						<label class="form-check-label" for="A3_investigation1_input2_option1">有</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input2"
+							id="A3_investigation1_input2_option2" value="2">
+						<label class="form-check-label" for="A3_investigation1_input2_option2">沒有</label>
+					</div>
+				</li>
+				<li id="A3_inv1_li4" class="d-none">
+					通過$T1$、$T2$兩點的圓中，最小圓的圓心會落在那裡？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input3"
+							id="A3_investigation1_input3_option1" value="1">
+						<label class="form-check-label" for="A3_investigation1_input3_option1">$A$點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input3"
+							id="A3_investigation1_input3_option2" value="2">
+						<label class="form-check-label" for="A3_investigation1_input3_option2">$B$點($T1$、$T2$中點)</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input3"
+							id="A3_investigation1_input3_option3" value="3">
+						<label class="form-check-label" for="A3_investigation1_input3_option3">$C$點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input3"
+							id="A3_investigation1_input3_option4" value="4">
+						<label class="form-check-label" for="A3_investigation1_input3_option4">$D$點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input3"
+							id="A3_investigation1_input3_option5" value="5">
+						<label class="form-check-label" for="A3_investigation1_input3_option5">$E$點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input3"
+							id="A3_investigation1_input3_option6" value="6">
+						<label class="form-check-label" for="A3_investigation1_input3_option6">$F$點</label>
+					</div>
+				</li>
+				<li id="A3_inv1_li5" class="d-none">
+					通過$T1$、$T2$兩點的圓，他們的圓心都落在哪裡？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input4"
+							id="A3_investigation1_input4_option1" value="1">
+						<label class="form-check-label" for="A3_investigation1_input4_option1">$\overline{T1 T2}$中垂線上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input4"
+							id="A3_investigation1_input4_option2" value="2">
+						<label class="form-check-label" for="A3_investigation1_input4_option2">$\angle T1 T2 F$的角平分線上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input4"
+							id="A3_investigation1_input4_option3" value="3">
+						<label class="form-check-label" for="A3_investigation1_input4_option3">$\overline{T1 T2}$上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A3_investigation1_input4"
+							id="A3_investigation1_input4_option4" value="4">
+						<label class="form-check-label" for="A3_investigation1_input4_option4">$\overline{BC}$上</label>
+					</div>
+				</li>
+				<li id="A3_inv1_li6" class="d-none">
+					如果你想要更確切找到寶藏位置，你覺得需要增加哪些條件？
+					<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A3_investigation1_input5"
+							id="A3_investigation1_input5_option1" value="1">
+						<label class="form-check-label" for="A3_investigation1_input5_option1">知道寶藏到樓塔的距離</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A3_investigation1_input5"
+							id="A3_investigation1_input5_option2" value="2">
+						<label class="form-check-label" for="A3_investigation1_input5_option2">知道所畫圓是否能再通過其他樓塔</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A3_investigation1_input5"
+							id="A3_investigation1_input5_option3" value="3">
+						<label class="form-check-label" for="A3_investigation1_input5_option3">再找到與另外兩個樓塔等距離的中垂線</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A3_investigation1_input5"
+							id="A3_investigation1_input5_option4" value="4">
+						<label class="form-check-label" for="A3_investigation1_input5_option4">沿著$\overline{T1
+							T2}$的中垂線挖掘，總會找到</label>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A3_investigation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A3_investigation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動3問題探索1 -->
+
+
+<!-- BEGIN 活動4實驗操作5 -->
+<div id="A4_operation5" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">中垂線工具-操作</div>
+		<img id="A4_operation5_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsInstruction">
+		<div>
+			<a href="#"><img id="A4_operation5_shorten" src="./images/content/shorten.png" height="20px"></a>
+			<a href="#"><img id="A4_operation5_expand" src="./images/content/expand.png" height="20px"
+					style="display:none"></a>
+			<div>
+				說明：
+			</div>
+		</div>
+		<div>
+			<ul>
+				<li>「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」：點選後可以在畫面中製作中垂線</li>
+				<li>「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」：點選後可以恢復使用滑鼠游標</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			利用「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」畫出$\overline{AB}$的中垂線吧！
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>點選「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」</li>
+				<li>依序點擊$A$、$B$兩點作出$\overline{AB}$的中垂線</li>
+				<li>依序點擊$B$、$C$兩點作出$\overline{BC}$的中垂線</li>
+				<li>點擊「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A4_operation5_next" class="btn btn-sm btn-success">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4實驗操作5 -->
+<!-- BEGIN 活動4觀察記錄5 -->
+<div id="A4_observation2" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">中垂線工具-觀察記錄</div>
+		<img id="A4_observation2_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<div>
+				<ol>
+					<li>
+						下列哪些點落在$\overline{AB}$的中垂線上呢？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input1"
+								id="A4_observation2_input1_option1" value="1">
+							<label class="form-check-label" for="A4_observation2_input1_option1">
+								$P$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input1"
+								id="A4_observation2_input1_option2" value="2">
+							<label class="form-check-label" for="A4_observation2_input1_option2">
+								$Q$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input1"
+								id="A4_observation2_input1_option3" value="3">
+							<label class="form-check-label" for="A4_observation2_input1_option3">
+								$R$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input1"
+								id="A4_observation2_input1_option4" value="4">
+							<label class="form-check-label" for="A4_observation2_input1_option4">
+								$S$
+							</label>
+						</div>
+					</li>
+					<li id="A4_obs2_li2" class="d-none">
+						下列哪些點落在$\overline{BC}$的中垂線上呢？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input2"
+								id="A4_observation2_input2_option1" value="1">
+							<label class="form-check-label" for="A4_observation2_input2_option1">
+								$P$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input2"
+								id="A4_observation2_input2_option2" value="2">
+							<label class="form-check-label" for="A4_observation2_input2_option2">
+								$Q$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input2"
+								id="A4_observation2_input2_option3" value="3">
+							<label class="form-check-label" for="A4_observation2_input2_option3">
+								$R$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input2"
+								id="A4_observation2_input2_option4" value="4">
+							<label class="form-check-label" for="A4_observation2_input2_option4">
+								$S$
+							</label>
+						</div>
+					</li>
+					<li id="A4_obs2_li3" class="d-none">
+						下列哪些點落在$\overline{AC}$的中垂線上呢？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input3"
+								id="A4_observation2_input3_option1" value="1">
+							<label class="form-check-label" for="A4_observation2_input3_option1">
+								$P$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input3"
+								id="A4_observation2_input3_option2" value="2">
+							<label class="form-check-label" for="A4_observation2_input3_option2">
+								$Q$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input3"
+								id="A4_observation2_input3_option3" value="3">
+							<label class="form-check-label" for="A4_observation2_input3_option3">
+								$R$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="A4_observation2_input3"
+								id="A4_observation2_input3_option4" value="4">
+							<label class="form-check-label" for="A4_observation2_input3_option4">
+								$S$
+							</label>
+						</div>
+					</li>
+
+				</ol>
+			</div>
+		</div>
+		<div>
+			<button id="A4_observation2_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A4_observation2_next" class="btn btn-sm btn-success d-none ">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4觀察記錄5 -->
+
+<!--實驗操作模板-->
+<!-- BEGIN 活動4實驗操作1 -->
+<div id="A4_operation1" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作1</div>
+		<img id="A4_operation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsInstruction">
+		<div>
+			<a href="#"><img id="A4_operation1_shorten" src="./images/content/shorten.png" height="20px"></a>
+			<a href="#"><img id="A4_operation1_expand" src="./images/content/expand.png" height="20px"
+					style="display:none"></a>
+			<div>
+				說明：
+			</div>
+		</div>
+		<div>
+			<ul>
+				<li>「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」：點選後可以在畫面中製作中垂線</li>
+				<li>「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」：點選後可以恢復使用滑鼠游標</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong>
+			<br>
+			<ul>
+				<li>
+					<strong style="color:blue ">三座樓塔</strong>都在圓形城牆上
+				</li>
+				<li>
+					<strong style="color: red">寶藏</strong>在圓形城牆的圓心
+				</li>
+				<li>
+					多多利用中垂線工具找到符合目標的地點吧
+				</li>
+			</ul>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>點選「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」</li>
+				<li>
+					依序點擊$A$、$B$兩點作出$\overline{AB}$的中垂線
+				</li>
+				<li>
+					依序點擊$B$、$C$兩點作出$\overline{BC}$的中垂線
+				</li>
+				<li>點選「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」後決定挖掘的地點</li>
+				<li>
+					拖曳<strong>「紅色叉叉」</strong>到兩條中垂線的交點，並調整合適的半徑使圓周通過$A$、$B$、$C$三點，看看會不會挖到寶藏吧！！
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A4_operation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4實驗操作1 -->
+<!-- BEGIN 活動4觀察記錄1 -->
+<div id="A4_observation1" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄1</div>
+		<img id="A4_observation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<div>
+				<ol>
+					<!-- <li>
+						寶藏的所在地與$\triangle{ABC}$的關係為何？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input1"
+								id="A4_observation1_input1_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input1_option1">
+								寶藏位於$\triangle{ABC}$的內部
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input1"
+								id="A4_observation1_input1_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input1_option2">
+								寶藏位於$\triangle{ABC}$的邊上
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input1"
+								id="A4_observation1_input1_option3" value="3">
+							<label class="form-check-label" for="A4_observation1_input1_option3">
+								寶藏位於$\triangle{ABC}$的外部
+							</label>
+						</div>
+					</li> -->
+					<li>
+						寶藏的所在地$P$點是否落在$\overline{AB}$的中垂線上？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input1"
+								id="A4_observation1_input1_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input1_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input1"
+								id="A4_observation1_input1_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input1_option2">否</label>
+						</div>
+					</li>
+					<li id="A4_obs1_li2" class="d-none">
+						根據$P$落在$\overline{AB}$的中垂線上，我們可以得到下面哪一個性質？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input2"
+								id="A4_observation1_input2_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input2_option1">
+								$\overline{PA} = \overline{PB}$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input2"
+								id="A4_observation1_input2_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input2_option2">
+								$\overline{PB} = \overline{PC}$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input2"
+								id="A4_observation1_input2_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input2_option2">
+								$\overline{PA} = \overline{PC}$
+							</label>
+						</div>
+					</li>
+					<li id="A4_obs1_li3" class="d-none">
+						寶藏的所在地$P$點是否落在$\overline{BC}$的中垂線上？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input3"
+								id="A4_observation1_input3_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input3_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input3"
+								id="A4_observation1_input3_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input3_option2">否</label>
+						</div>
+					</li>
+					<li id="A4_obs1_li4" class="d-none">
+						根據$P$落在$\overline{BC}$的中垂線上，我們可以得到下面哪一個性質？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input4"
+								id="A4_observation1_input4_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input4_option1">
+								$\overline{PA} = \overline{PB}$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input4"
+								id="A4_observation1_input4_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input4_option2">
+								$\overline{PB} = \overline{PC}$
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input4"
+								id="A4_observation1_input4_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input4_option2">
+								$\overline{PA} = \overline{PC}$
+							</label>
+						</div>
+					</li>
+					<li id="A4_obs1_li5" class="d-none">
+						根據上面的問題，$\overline{PA}$與$\overline{PC}$是否會相等？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input5"
+								id="A4_observation1_input5_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input5_option1">是</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input5"
+								id="A4_observation1_input5_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input5_option2">否</label>
+						</div>
+					</li>
+					<li id="A4_obs1_li6" class="d-none">
+						請問$P$點會落在$\overline{AC}$的中垂線上嗎？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input6"
+								id="A4_observation1_input6_option1" value="1">
+							<label class="form-check-label" for="A4_observation1_input6_option1">會</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation1_input6"
+								id="A4_observation1_input6_option2" value="2">
+							<label class="form-check-label" for="A4_observation1_input6_option2">不會</label>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div>
+			<button id="A4_observation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A4_observation1_next" class="btn btn-sm btn-success d-none ">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4觀察記錄1 -->
+<!-- BEGIN 活動4問題探索1 -->
+<div id="A4_investigation1" class="investigation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/investigation.png" width="30px" alt="investigation">
+		<div class="worksheetsTitle">問題探索1</div>
+		<img id="A4_investigation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					下列有關於找出圓心位置的方法哪些正確？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation1_input1"
+							id="A4_investigation1_input1_option1" value="1">
+						<label class="form-check-label"
+							for="A4_investigation1_input1_option1">$\overline{AB}$中垂線與$\overline{BC}$中垂線的交點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation1_input1"
+							id="A4_investigation1_input1_option2" value="2">
+						<label class="form-check-label"
+							for="A4_investigation1_input1_option2">$\overline{BC}$中垂線與$\overline{AC}$中垂線的交點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation1_input1"
+							id="A4_investigation1_input1_option3" value="3">
+						<label class="form-check-label"
+							for="A4_investigation1_input1_option3">$\overline{AB}$中垂線與$\overline{AC}$中垂線的交點</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation1_input1"
+							id="A4_investigation1_input1_option4" value="4">
+						<label class="form-check-label"
+							for="A4_investigation1_input1_option4">$\overline{AB}$、$\overline{BC}$、$\overline{AC}$三線段中垂線的交點</label>
+					</div>
+				</li>
+				<li id="A4_inv1_li2" class="d-none">
+					一定要做三條中垂線才能找到通過三點的圓的圓心嗎？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A4_investigation1_input2"
+							id="A4_investigation1_input2_option1" value="1">
+						<label class="form-check-label" for="A4_investigation1_input2_option1">
+							一定要做三條中垂線，因為三條中垂線不一定會交於同一點
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A4_investigation1_input2"
+							id="A4_investigation1_input2_option2" value="2">
+						<label class="form-check-label" for="A4_investigation1_input2_option2">
+							只要做兩條中垂線就夠了，因為第三條中垂線一定會經過另外兩條中垂線的交點</label>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A4_investigation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A4_investigation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4問題探索1 -->
+
+<!-- BEGIN 活動4觀察記錄2 -->
+<div id="A4_observation2" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄3</div>
+		<img id="A4_observation2_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<div>
+				<ol>
+					<li>
+						寶藏的所在地？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input1"
+								id="A4_observation2_input1_option1" value="1">
+							<label class="form-check-label" for="A4_observation2_input1_option1">
+								寶藏位於$\triangle{ABC}$的內部
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input1"
+								id="A4_observation2_input1_option2" value="2">
+							<label class="form-check-label" for="A4_observation2_input1_option2">
+								寶藏位於$\triangle{ABC}$的邊上
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input1"
+								id="A4_observation2_input1_option3" value="3">
+							<label class="form-check-label" for="A4_observation2_input1_option3">
+								寶藏位於$\triangle{ABC}$的外部
+							</label>
+						</div>
+					</li>
+					<li>
+						尋找寶藏的過程中，你做出了幾條不同的中垂線？<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input2"
+								id="A4_observation2_input2_option1" value="1">
+							<label class="form-check-label" for="A4_observation2_input2_option1">一條</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input2"
+								id="A4_observation2_input2_option2" value="2">
+							<label class="form-check-label" for="A4_observation2_input2_option2">兩條</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input2"
+								id="A4_observation2_input2_option3" value="3">
+							<label class="form-check-label" for="A4_observation2_input2_option3">三條</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="A4_observation2_input2"
+								id="A4_observation2_input2_option3" value="3">
+							<label class="form-check-label" for="A4_observation2_input2_option3">
+								超過三條
+							</label>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div>
+			<button id="A4_observation2_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A4_observation2_next" class="btn btn-sm btn-success d-none ">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4觀察記錄2 -->
+
+<!-- BEGIN 活動4實驗操作2 -->
+<div id="A4_operation2" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作2</div>
+		<img id="A4_operation2_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsInstruction">
+		<div>
+			<a href="#"><img id="A4_operation2_shorten" src="./images/content/shorten.png" height="20px"></a>
+			<a href="#"><img id="A4_operation2_expand" src="./images/content/expand.png" height="20px"
+					style="display:none"></a>
+			<div>
+				說明：
+			</div>
+		</div>
+		<div>
+			<ul>
+				<li>「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」：點選後可以在畫面中製作中垂線</li>
+				<li>「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」：點選後可以恢復使用滑鼠游標</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong>
+			<br>
+			<ul>
+				<li>
+					<strong style="color:blue ">三座樓塔</strong>都在圓形城牆上
+				</li>
+				<li>
+					<strong style="color: red">寶藏</strong>在圓形城牆的圓心
+				</li>
+				<li>
+					多多利用中垂線工具找到符合目標的地點吧
+				</li>
+			</ul>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>點選「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」</li>
+				<li>
+					依序點擊$A$、$B$兩點作出$\overline{AB}$的中垂線
+				</li>
+				<li>
+					依序點擊$A$、$C$兩點作出$\overline{AC}$的中垂線
+				</li>
+				<li>
+					依序點擊$B$、$C$兩點作出$\overline{BC}$的中垂線
+				</li>
+				<li>點選「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」</li>
+				<li>
+					拖曳<strong>「紅色叉叉」</strong>像之前的活動一樣決定要挖掘寶藏的位置吧！
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A4_operation2_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4實驗操作2 -->
+
+<!-- BEGIN 活動4實驗操作3 -->
+<div id="A4_operation3" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作3</div>
+		<img id="A4_operation3_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsInstruction">
+		<div>
+			<a href="#"><img id="A4_operation3_shorten" src="./images/content/shorten.png" height="20px"></a>
+			<a href="#"><img id="A4_operation3_expand" src="./images/content/expand.png" height="20px"
+					style="display:none"></a>
+			<div>
+				說明：
+			</div>
+		</div>
+		<div>
+			<ul>
+				<li>「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」：點選後可以在畫面中製作中垂線</li>
+				<li>「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」：點選後可以恢復使用滑鼠游標</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong>
+			<br>
+			<ul>
+				<li>
+					<strong style="color:blue ">三座樓塔</strong>都在圓形城牆上
+				</li>
+				<li>
+					<strong style="color: red">寶藏</strong>在圓形城牆的圓心
+				</li>
+				<li>
+					多多利用中垂線工具找到符合目標的地點吧
+				</li>
+			</ul>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>點選「中垂線作圖工具 <img src="./images/content/JDM-IEEA-02/tool2.png" width="30px"> 」</li>
+				<li>
+					依序點擊$A$、$B$兩點作出$\overline{AB}$的中垂線
+				</li>
+				<li>
+					依序點擊$A$、$C$兩點作出$\overline{AC}$的中垂線
+				</li>
+				<li>
+					依序點擊$B$、$C$兩點作出$\overline{BC}$的中垂線
+				</li>
+				<li>點選「游標工具 <img src="./images/content/JDM-IEEA-02/tool1.png" width="30px"> 」</li>
+				<li>
+					拖曳<strong>「紅色叉叉」</strong>像之前的活動一樣決定要挖掘寶藏的位置吧！
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A4_operation3_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4實驗操作3 -->
+
+
+<!-- BEGIN 活動4問題探索2 -->
+<div id="A4_investigation2" class="investigation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/investigation.png" width="30px" alt="investigation">
+		<div class="worksheetsTitle">問題探索2</div>
+		<img id="A4_investigation2_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					依據不同的$A$、$B$、$C$三點，
+					下列哪些選項是通過$A$、$B$、$C$三點的圓，其圓心可能的位置？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation2_input1"
+							id="A4_investigation2_input1_option1" value="1">
+						<label class="form-check-label" for="A4_investigation2_input1_option1">
+							$\triangle{ABC}$的內部</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation2_input1"
+							id="A4_investigation2_input1_option2" value="2">
+						<label class="form-check-label" for="A4_investigation2_input1_option2">
+							$\triangle{ABC}$的邊上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation2_input1"
+							id="A4_investigation2_input1_option3" value="3">
+						<label class="form-check-label" for="A4_investigation2_input1_option3"></label>
+						$\triangle{ABC}$的外部</label>
+					</div>
+
+				</li>
+				<li>
+					承上題，圓心的位置不同，你覺得和下列哪些因素有關係呢？ <br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation2_input2"
+							id="A4_investigation2_input2_option1" value="1">
+						<label class="form-check-label" for="A4_investigation2_input2_option1">
+							$\triangle{ABC}$的內角大小
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation2_input2"
+							id="A4_investigation2_input2_option2" value="2">
+						<label class="form-check-label" for="A4_investigation2_input2_option2">
+							$\triangle{ABC}的邊長長度$</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A4_investigation2_input2"
+							id="A4_investigation2_input2_option3" value="3">
+						<label class="form-check-label" for="A4_investigation2_input2_option3">
+							沒有特別的關係
+						</label>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A4_investigation2_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A4_investigation2_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動4問題探索2 -->
+
+<!--實驗操作模板-->
+<!-- BEGIN 活動5實驗操作1 -->
+<div id="A5_operation1" class="operation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/operation.png" width="30px" alt="operation">
+		<div class="worksheetsTitle">實驗操作1</div>
+		<img id="A5_operation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div>
+			<strong>實驗目標：</strong>
+			<p>
+				拖動$A$點觀察通過三點的圓其圓心位置如何改變
+			</p>
+		</div>
+		<div>
+			<strong>操作步驟：</strong>
+			<ol>
+				<li>拖動$A$點觀察圓心的位置</li>
+				<li>先拖動$A$點讓$\angle A \gt 100\degree$，並觀察$O$點的位置</li>
+				<li>再拖動$A$點讓$\angle B \gt 120\degree$，並觀察$O$點的位置</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A5_operation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動5實驗操作1 -->
+
+<!--觀察記錄模板-->
+<!-- BEGIN 活動5觀察記錄1 -->
+<div id="A5_observation1" class="observation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/observation.png" width="30px" alt="observation">
+		<div class="worksheetsTitle">觀察記錄1</div>
+		<img id="A5_observation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+
+	<div class="worksheetsContents">
+		<div></div>
+		<div>
+			<ol>
+				<li>
+					拖動$A$點的過程中，你發現外心$O$點的位置，可能會在哪些地方？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A5_observation1_input1"
+							id="A5_observation1_input1_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input1_option1">$\triangle{ABC}$內部</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A5_observation1_input1"
+							id="A5_observation1_input1_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input1_option2">$\overline{AB}$邊上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A5_observation1_input1"
+							id="A5_observation1_input1_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input1_option3">$\overline{BC}$邊上
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A5_observation1_input1"
+							id="A5_observation1_input1_option4" value="4">
+						<label class="form-check-label" for="A5_observation1_input1_option4">$\overline{AC}$邊上
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="A5_observation1_input1"
+							id="A5_observation1_input1_option5" value="5">
+						<label class="form-check-label" for="A5_observation1_input1_option5">$\triangle{ABC}$外部
+						</label>
+					</div>
+				</li>
+				<li id="A5_obs1_li2" class="d-none">
+					當外心$O$點在三角形的內部時，<br>
+					$\angle{A}$是什麼角？<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input2"
+							id="A5_observation1_input2_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input2_option1">銳角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input2"
+							id="A5_observation1_input2_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input2_option2">直角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input2"
+							id="A5_observation1_input2_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input2_option3">鈍角</label>
+					</div><br>
+					$\angle{B}$是什麼角？<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input3"
+							id="A5_observation1_input3_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input3_option1">銳角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input3"
+							id="A5_observation1_input3_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input3_option2">直角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input3"
+							id="A5_observation1_input3_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input3_option3">鈍角</label>
+					</div><br>
+					$\angle{C}$是什麼角？<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input4"
+							id="A5_observation1_input4_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input4_option1">銳角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input4"
+							id="A5_observation1_input4_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input4_option2">直角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input4"
+							id="A5_observation1_input4_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input4_option3">鈍角</label>
+					</div>
+				</li>
+				<li id="A5_obs1_li3" class="d-none">
+					當外心$O$點落在$\overline{AB}$上時，<br>
+					$\angle{A}$是什麼角？<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input5"
+							id="A5_observation1_input5_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input5_option1">銳角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input5"
+							id="A5_observation1_input5_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input5_option2">直角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input5"
+							id="A5_observation1_input5_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input5_option3">鈍角</label>
+					</div><br>
+					$\angle{B}$是什麼角？
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input6"
+							id="A5_observation1_input6_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input6_option1">銳角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input6"
+							id="A5_observation1_input6_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input6_option2">直角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input6"
+							id="A5_observation1_input6_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input6_option3">鈍角</label>
+					</div><br>
+					$\angle{C}$是什麼角？
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input7"
+							id="A5_observation1_input7_option1" value="1">
+						<label class="form-check-label" for="A5_observation1_input7_option1">銳角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input7"
+							id="A5_observation1_input7_option2" value="2">
+						<label class="form-check-label" for="A5_observation1_input7_option2">直角</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_observation1_input7"
+							id="A5_observation1_input7_option3" value="3">
+						<label class="form-check-label" for="A5_observation1_input7_option3">鈍角</label>
+					</div>
+				</li>
+
+			</ol>
+		</div>
+		<div>
+			<button id="A5_observation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A5_observation1_next" class="btn btn-sm btn-success d-none">下一步</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動5觀察記錄1 -->
+
+<!--問題探索模板-->
+<!-- BEGIN 活動1問題探索5 -->
+<div id="A5_investigation1" class="investigation">
+	<div class="worksheetsHeader">
+		<img src="./images/content/investigation.png" width="30px" alt="investigation">
+		<div class="worksheetsTitle">問題探索1</div>
+		<img id="A5_investigation1_done" src="./images/content/finish.png" height="30px">
+	</div>
+	<div class="worksheetsContents">
+		<div>拖動$A$點回答下列問題</div>
+		<div>
+			<ol>
+				<li>
+					當$\triangle{ABC}$是銳角三角形時，圓心$O$會落在什麼地方？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input1"
+							id="A5_investigation1_input1_option1" value="1">
+						<label class="form-check-label" for="A5_investigation1_input1_option1">三角形內部</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input1"
+							id="A5_investigation1_input1_option2" value="2">
+						<label class="form-check-label" for="A5_investigation1_input1_option2">三角形邊上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input1"
+							id="A5_investigation1_input1_option3" value="3">
+						<label class="form-check-label" for="A5_investigation1_input1_option3">三角形外部</label>
+					</div>
+				</li>
+				<li id="A5_inv1_li2" class='d-none'>
+					當$\triangle{ABC}$是直角三角形時，圓心$O$會落在什麼地方？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input2"
+							id="A5_investigation1_input2_option1" value="1">
+						<label class="form-check-label" for="A5_investigation1_input2_option1">三角形內部</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input2"
+							id="A5_investigation1_input2_option2" value="2">
+						<label class="form-check-label" for="A5_investigation1_input2_option2">三角形邊上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input2"
+							id="A5_investigation1_input2_option3" value="3">
+						<label class="form-check-label" for="A5_investigation1_input2_option3">三角形外部</label>
+					</div>
+				</li>
+				<li id="A5_inv1_li3" class='d-none'>
+					當$\triangle{ABC}$是鈍角三角形時，圓心$O$會落在什麼地方？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input3"
+							id="A5_investigation1_input3_option1" value="1">
+						<label class="form-check-label" for="A5_investigation1_input3_option1">三角形內部</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input3"
+							id="A5_investigation1_input3_option2" value="2">
+						<label class="form-check-label" for="A5_investigation1_input3_option2">三角形邊上</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input3"
+							id="A5_investigation1_input3_option3" value="3">
+						<label class="form-check-label" for="A5_investigation1_input3_option3">三角形外部</label>
+					</div>
+				</li>
+				<!-- <li>
+					通過$\triangle{ABC}$三的頂點的圓，其圓心位置不同的原因為何？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input4"
+							id="A5_investigation1_input4_option1" value="1">
+						<label class="form-check-label"
+							for="A5_investigation1_input4_option1">$\angle{A}$、$\angle{B}$、$\angle{C}$的大小</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input4"
+							id="A5_investigation1_input4_option2" value="2">
+						<label class="form-check-label" for="A5_investigation1_input4_option2">三角形三邊的長度</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input4"
+							id="A5_investigation1_input4_option2" value="2">
+						<label class="form-check-label" for="A5_investigation1_input4_option2">沒有一定的規律
+						</label>
+					</div>
+				</li> -->
+				<li id="A5_inv1_li4" class='d-none'>
+					如果要給這個圓心命個名，你想叫它甚麼名字？<br>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input5"
+							id="A5_investigation1_input5_option1" value="1">
+						<label class="form-check-label" for="A5_investigation1_input5_option1">三點圓心</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input5"
+							id="A5_investigation1_input5_option2" value="2">
+						<label class="form-check-label" for="A5_investigation1_input5_option2">三中垂線圓心</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input5"
+							id="A5_investigation1_input5_option3" value="3">
+						<label class="form-check-label" for="A5_investigation1_input5_option3">外心</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input5"
+							id="A5_investigation1_input5_option4" value="4">
+						<label class="form-check-label" for="A5_investigation1_input5_option4">內心</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input5"
+							id="A5_investigation1_input5_option5" value="5">
+						<label class="form-check-label" for="A5_investigation1_input5_option5">重心</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="A5_investigation1_input5"
+							id="A5_investigation1_input5_option6" value="6">
+						<label class="form-check-label" for="A5_investigation1_input5_option6">垂心</label>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div>
+			<button id="A5_investigation1_confirm" class="btn btn-sm btn-primary">確定送出</button>
+			<button id="A5_investigation1_next" class="btn btn-sm btn-success d-none">恭喜你完成活動囉~</button>
+		</div>
+	</div>
+</div>
+<!-- END 活動5問題探索1 -->
+
+
+<!-- BEGIN 活動選單 -->
+
+		<!-- END 活動選單 -->
+
+		<!--學習單活動列表模板-->
+		
+            </div>
+            <!-- END 學習單區塊 -->
+
+        </div>
+        <!-- END 學具及學習單外框 -->
+
+    </div>
+    <!-- END 內容外框 -->
+
+
+    <!-- BEGIN 學習單內容選單 -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" style="width: 220px; background-color:azure;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">學習單內容</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body fs-6">
+            
+                
+			<ul id="outlineA1" class="outlines">
+				<li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+					<strong>實驗操作</strong>
+				</li>
+				<ul>
+					<li id="A1_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<li id="A1_operation6_link" class="outline"><a href="#">圓規工具</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+					<strong>觀察記錄</strong>
+				</li>
+				<ul>
+					<li id="A1_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px" alt="investigation">
+					<strong>問題探索</strong>
+				</li>
+				<ul>
+					<li id="A1_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+			</ul>
+
+			<ul id="outlineA2" class="outlines">
+				<li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+					<strong>實驗操作</strong>
+				</li>
+				<ul>
+					<li id="A2_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+					<strong>觀察記錄</strong>
+				</li>
+				<ul>
+					<li id="A2_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px" alt="investigation">
+					<strong>問題探索</strong>
+				</li>
+				<ul>
+					<li id="A2_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+			</ul>
+
+			<ul id="outlineA3" class="outlines">
+				<li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+					<strong>實驗操作</strong>
+				</li>
+				<ul>
+					<li id="A3_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+					<strong>觀察記錄</strong>
+				</li>
+				<ul>
+					<li id="A3_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<li id="A3_observation2_link" class="outline"><a href="#">觀察記錄 2</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px" alt="investigation">
+					<strong>問題探索</strong>
+				</li>
+				<ul>
+					<li id="A3_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+			</ul>
+
+			<ul id="outlineA4" class="outlines">
+				<li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+					<strong>實驗操作</strong>
+				</li>
+				<ul>
+					<li id="A4_operation5_link" class="outline"><a href="#">中垂線工具</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<li id="A4_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<!-- <li id="A4_operation2_link" class="outline"><a href="#">實驗操作 2</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<li id="A4_operation3_link" class="outline"><a href="#">實驗操作 3</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li> -->
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+					<strong>觀察記錄</strong>
+				</li>
+				<ul>
+					<li id="A4_observation2_link" class="outline"><a href="#">中垂線觀察記錄</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<li id="A4_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<!-- <li id="A4_observation2_link" class="outline"><a href="#">觀察記錄 3</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li> -->
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px" alt="investigation">
+					<strong>問題探索</strong>
+				</li>
+				<ul>
+					<li id="A4_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+					<!-- <li id="A4_investigation2_link" class="outline"><a href="#">問題探索 2</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li> -->
+				</ul>
+			</ul>
+
+			<ul id="outlineA5" class="outlines">
+				<li class="my-2 text-dark"><img src="./images/content/operation.png" width="30px" alt="operation">
+					<strong>實驗操作</strong>
+				</li>
+				<ul>
+					<li id="A5_operation1_link" class="outline"><a href="#">實驗操作 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/observation.png" width="30px" alt="observation">
+					<strong>觀察記錄</strong>
+				</li>
+				<ul>
+					<li id="A5_observation1_link" class="outline"><a href="#">觀察記錄 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+
+				</ul>
+				<li class="my-2 text-dark"><img src="./images/content/investigation.png" width="30px" alt="investigation">
+					<strong>問題探索</strong>
+				</li>
+				<ul>
+					<li id="A5_investigation1_link" class="outline"><a href="#">問題探索 1</a> <img src="./images/content/finish.png"
+							height="15px" style="opacity: 0.2; position: relative; top: -2px;"></li>
+				</ul>
+			</ul>
+
+			
+                    
+        </div>
+    </div>
+    <!-- END 學習單內容選單 -->
+
+
+
+
+</body>
+
+</html>
