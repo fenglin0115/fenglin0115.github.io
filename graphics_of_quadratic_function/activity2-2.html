@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動2：解密噴泉的函數身分</title>
+    <!-- <script src="https://www.geogebra.org/apps/deployggb.js"></script> -->
+    <!-- <script src="./javascripts/activity2_2.js"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="./stylesheets/layout.css"> -->
+    <style>
+        @media (orientation: landscape) {
+            .ggbSetting {
+                display: flex;
+                /* border: 1px solid rgb(240, 115, 76); */
+                /* align-self: center; */
+                margin: 10px auto;
+                width: 95vw;
+                max-width: calc((100vmin - 60px) / 10 * 16);
+                height: calc(95vw / 16 * 10);
+                max-height: calc(100vmin - 60px);
+            }
+        }
+
+        @media (orientation: portrait) {
+            .ggbSetting {
+                display: flex;
+                /* border: 1px solid #0F0; */
+                align-self: center;
+                margin: 0.1rem;
+                width: calc(100vw - 1rem - 2px);
+                height: calc((100vw - 1rem - 2px) * 5 / 8);
+                max-height: calc((100vw - 1rem - 2px) * 5 / 8);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <!-- BEGIN 學具區塊 -->
+        <div class="ggbSetting">
+            <div id="ggb-element">GGB Manipulatives</div>
+        </div>
+        <!-- END 學具區塊 -->
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-auto"><a href="./activity2-1.html" class="btn btn-sm btn-primary align-self-center">回到前一個活動</a></div>
+            <div class="col-auto"><a href="./toc.html" class="btn btn-sm btn-primary align-self-center">回目錄</a></div>
+        </div>
+    </div>
+
+    <script src="../GeoGebra/deployggb.js"></script>
+    <script src="./javascripts/activity2_2.js"></script>
+    <script>
+        var params = {
+            "id": "ggbApplet01",
+            "ggbBase64": activity2_2, 
+            // "ggbBase64": test, 
+            "width": 960, 
+            "height": 600,
+            "enableRightClick": false,
+            "enableLabelDrags": false,
+            "enableShiftDragZoom": false,
+            "showZoomButtons": false,
+            "errorDialogsActive": false,
+            "showMenuBar": false,
+            "showToolBar": false,
+            "showToolBarHelp": false,
+            "showAlgebraInput": false,
+            "showResetIcon": true,
+            "showFullscreenButton": true,
+            "showAnimationButton": false,
+            "useBrowserForJS": true,
+            "scaleContainerClass": "ggbSetting",
+            "autoHeight": true,
+            "allowUpscale": true,
+            "borderColor": "#000000"
+        };
+
+        var applet = new GGBApplet(params, true);
+        // applet.setHTML5Codebase('GeoGebra/HTML5/5.0/web3d/');
+        window.addEventListener("load", function() { 
+            applet.setHTML5Codebase('../GeoGebra/HTML5/5.0/web3d/'); 
+            applet.inject('ggb-element');
+        });
+
+
+    </script>
+</body>
+</html>
