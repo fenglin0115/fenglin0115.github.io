@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <!-- <meta name="viewport" content="viewport-fit=cover"> -->
+
+    <title>虛擬學具</title>
+
+    <!-- 載入jQuery -->
+    <script src="./includes/jquery-3.6.0.min.js"></script>
+
+    <!-- 載入BootStrap5 -->
+    <link href="./includes/bootstrap.min.css" rel="stylesheet">
+    <script src="./includes/bootstrap.bundle.min.js"></script>
+
+    <!-- 載入GeoGebra -->
+    <script src="./GeoGebra/deployggb.js"></script>
+
+    <!-- 載入SweetAlert2 -->
+    <script src="./includes/sweetalert2.all.min.js"></script>
+
+    <!-- 載入Loading畫面 -->
+    <link rel="stylesheet" href="./stylesheets/loading.css">
+
+    <!-- 載入Katex -->
+    <link rel="stylesheet" href="./includes/katex.min.css">
+    <script defer src="./includes/katex.min.js"></script>
+    <script defer src="./includes/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="./stylesheets/layout.css">
+
+    <!-- 載入jQuery Scroll -->
+    <link rel="stylesheet" href="./includes/style.css" />
+    <link rel="stylesheet" href="./includes/prettify/prettify.css" />
+    <script src="./includes/prettify/prettify.js"></script>
+    <script src="./javascripts/jquery.scrollbar.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.scrollbar-macosx').scrollbar();
+
+            $("#note").click(function () {
+                $("#note").hide();
+                $("#noted").fadeIn();
+                $("#fontSize").fadeIn();
+                $(".worksheets").show("slide");
+                $("#worksheetsMenu").show();
+            });
+
+            $("#noted").click(function () {
+                $("#noted").hide();
+                $("#note").fadeIn();
+                $("#fontSize").hide();
+                $(".worksheets").hide("slide");
+                $("#worksheetsMenu").hide();
+            });
+
+            $("#fontSize").click(function () {
+                if ($('#fs-1').is(":visible")) {
+                    $('#fs-1').hide();
+                    $('#fs-2').show();
+                    $('body').css({ 'font-size': '15px' });
+                } else if ($('#fs-2').is(":visible")) {
+                    $('#fs-2').hide();
+                    $('#fs-3').show();
+                    $('body').css({ 'font-size': '16px' });
+                } else if ($('#fs-3').is(":visible")) {
+                    $('#fs-3').hide();
+                    $('#fs-4').show();
+                    $('body').css({ 'font-size': '17px' });
+                } else {
+                    $('#fs-4').hide();
+                    $('#fs-1').show();
+                    $('body').css({ 'font-size': '14px' });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            padding-top: env(safe-area-inset-top);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            background-image: url("./images/content/item_page_bg2.png");
+        }
+    </style>
+
+    <link rel="stylesheet" href="./stylesheets/jQueryScroll.css">
+
+    <link rel="shortcut icon" href=./favicon.ico>
+    <link rel=bookmark href=./favicon.ico>
+</head>
+
+<body>
+
+    <!-- BEGIN 載入活動GGB檔及互動功能 -->
+    <script src="./javascripts/ggbParamsInit.js"></script>
+    <script src="./javascripts/utilities.js"></script>
+    <!-- END 載入活動GGB檔及互動功能 -->
+
+    <!-- BEGIN 載入畫面 -->
+    <div id="load-wrapper" class="d-flex flex-column align-items-center justify-content-center" style="z-index: 99999;">
+        <div class="lds-ring" style="margin: 0 auto;">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <h2>載入中...</h2>
+        </div>
+    </div>
+    <!-- END 載入畫面 -->
+
+    <!-- BEGIN 內容外框 -->
+    <div class="wrapper">
+
+        <!-- BEGIN 頁首外框 -->
+        <div class="header_wrapper">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./index.html" style="color: darkolivegreen;">高中數學實驗室</a>
+                    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="d-flex navbar-nav align-items-lg-center"
+                            style="font-size: 0.9rem; font-weight: bold;">
+                            <div class="nav-item dropdown me-2" id="activitySelected">
+                                <button class="nav-link btn btn-light btn-sm p-1 dropdown-toggle border border-dark"
+                                    type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    請選擇活動
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    
+                                                <li><a class="dropdown-item" href="#">活動1</a></li>
+                                                <li><a class="dropdown-item" href="#">活動2</a></li>
+                                                <li><a class="dropdown-item" href="#">活動3</a></li>
+                                                
+                                </ul>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" href="#">
+                                    <img src="./images/content/goal.png" height="30px"> 活動目標
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" id="note" href="#" style="display: none;">
+                                    <img src="./images/content/note.png" height="30px"> 顯示學習單
+                                </a>
+                                <a class="nav-link" id="noted" href="#">
+                                    <img src="./images/content/note-worked.png" height="30px"> 隱藏學習單
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasMenu"
+                                    id="worksheetsMenu">
+                                    <img src="./images/content/menu.png" height="30px"> 學習單內容
+                                </a>
+                            </div>
+                            <div class="nav-item d-inline-block align-middle">
+                                <a class="nav-link" href="#" id="fontSize">
+                                    <img id="fs-1" src="./images/fs-1.png" height="25px">
+                                    <img id="fs-2" src="./images/fs-2.png" height="25px" style="display: none;">
+                                    <img id="fs-3" src="./images/fs-3.png" height="25px" style="display: none;">
+                                    <img id="fs-4" src="./images/fs-4.png" height="25px" style="display: none;">
+                                    字體大小
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- END 頁首外框 -->
+
+        <!-- BEGIN 學具標題 -->
+        <div class="title">
+            <span>D-10-4 虛擬學具</span>
+        </div>
+        <!-- END 學具標題 -->
+
+        <!-- BEGIN 學具及學習單外框 -->
+        <div class="manipulative">
+
+            <!-- BEGIN 學具區塊 -->
+            <div class="ggbSetting">
+                <div id="ggb-element">DIV2</div>
+            </div>
+            <!-- END 學具區塊 -->
+
+            <!-- BEGIN 學習單區塊 -->
+            <div class="worksheets scrollbar-macosx">
+                <!-- BEGIN 載入活動GGB檔 -->
+<script src="./javascripts/index/ggb_index_A1.js"></script>
+<script src="./javascripts/index/affordances.js"></script>
+<!-- END 載入活動GGB檔 -->
+            </div>
+            <!-- END 學習單區塊 -->
+
+        </div>
+        <!-- END 學具及學習單外框 -->
+
+    </div>
+    <!-- END 內容外框 -->
+
+
+    <!-- BEGIN 學習單內容選單 -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" style="width: 220px; background-color:azure;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">學習單內容</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body fs-6">
+            
+        </div>
+    </div>
+    <!-- END 學習單內容選單 -->
+
+
+
+
+</body>
+
+</html>
